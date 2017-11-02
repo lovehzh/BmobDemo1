@@ -6,8 +6,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.List;
+
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
@@ -15,7 +18,11 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
     private Button btnInsert, btnUpdate, btnDelete, btnQuerry;
+    private Button btnQuerryUsers;
     private String objectId = "";
+
+    private static  int pagesize = 10;
+    private int count;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,6 +48,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         btnQuerry = (Button)findViewById(R.id.btn_querry_user);
         btnQuerry.setOnClickListener(this);
+
+        btnQuerryUsers = (Button)findViewById(R.id.btn_querry_datas);
+        btnQuerryUsers.setOnClickListener(this);
     }
 
     /**
@@ -121,6 +131,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         });
     }
 
+    /**
+     * 分页查询
+     */
+    private void queryPersons() {
+        BmobQuery<Person> bmobQuery = new BmobQuery<Person>();
+        //注意分页的写法 count * pagesize
+        bmobQuery.setLimit(pagesize).setSkip(count * pagesize).order("-createdAt").findObjects(new FindListener<Person>() {
+            @Override
+            public void done(List<Person> list, BmobException e) {
+                if(e == null) {
+                    ShowToast("查到" + list.size() + "条数据");
+                    count = ++count;
+                    for (Person person : list) {
+                        Log.i("test", person.getName() + " " + person.getAddress());
+                    }
+                }else {
+                    ShowToast("出错了" + e.toString());
+                }
+            }
+        });
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -138,6 +170,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
             case R.id.btn_querry_user:
                 queryPersonByObjectId();
+                break;
+
+            case R.id.btn_querry_datas:
+                queryPersons();
                 break;
 
             default:

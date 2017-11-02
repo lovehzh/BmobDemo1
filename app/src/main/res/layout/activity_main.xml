@@ -42,4 +42,11 @@
         android:text="@string/querry_user"
         />
 
+    <Button
+        android:id="@+id/btn_querry_datas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/querry_users"
+        />
+
 </LinearLayout>
