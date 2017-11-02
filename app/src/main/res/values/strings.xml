@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">BmobDemo1</string>
+    <string name="insert_user">Insert a user</string>
+    <string name="update_user">Update  user</string>
+    <string name="delete_user">Delete user</string>
+    <string name="querry_user">Querry user info</string>
+</resources>
