@@ -49,4 +49,11 @@
         android:text="@string/querry_users"
         />
 
+    <Button
+        android:id="@+id/btn_go_list_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/go_recycle_view"
+        />
+
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.andview.example.ui;
+package demo.android.hello.com.bmobdemo1;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

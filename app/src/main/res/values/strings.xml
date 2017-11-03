@@ -5,4 +5,5 @@
     <string name="delete_user">Delete user</string>
     <string name="querry_user">Querry user info</string>
     <string name="querry_users">Querry users info</string>
+    <string name="go_recycle_view">Go RecycleView</string>
 </resources>

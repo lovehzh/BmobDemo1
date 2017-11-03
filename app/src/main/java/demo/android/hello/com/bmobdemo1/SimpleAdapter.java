@@ -1,4 +1,4 @@
-package com.andview.example.recylerview;
+package demo.android.hello.com.bmobdemo1;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.andview.example.DensityUtil;
-import com.andview.example.R;
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 
 import java.util.List;
@@ -28,7 +26,7 @@ public class SimpleAdapter extends BaseRecyclerAdapter<SimpleAdapter.SimpleAdapt
     public void onBindViewHolder(SimpleAdapterViewHolder holder, int position, boolean isItem) {
         Person person = list.get(position);
         holder.nameTv.setText(person.getName());
-        holder.ageTv.setText(person.getAge());
+        holder.ageTv.setText(person.getAddress());
         ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
         if (layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
             holder.rootView.getLayoutParams().height = position % 2 != 0 ? largeCardHeight : smallCardHeight;

@@ -1,5 +1,6 @@
 package demo.android.hello.com.bmobdemo1;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import cn.bmob.v3.listener.UpdateListener;
 public class MainActivity extends BaseActivity implements View.OnClickListener{
     private Button btnInsert, btnUpdate, btnDelete, btnQuerry;
     private Button btnQuerryUsers;
+    private Button btnGoRycycleView;
     private String objectId = "";
 
     private static  int pagesize = 10;
@@ -51,6 +53,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         btnQuerryUsers = (Button)findViewById(R.id.btn_querry_datas);
         btnQuerryUsers.setOnClickListener(this);
+
+        btnGoRycycleView = (Button)findViewById(R.id.btn_go_list_activity);
+        btnGoRycycleView.setOnClickListener(this);
     }
 
     /**
@@ -174,6 +179,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
             case R.id.btn_querry_datas:
                 queryPersons();
+                break;
+
+            case  R.id.btn_go_list_activity:
+                Intent intent = new Intent(this, RecycleViewActivity.class);
+                startActivity(intent);
+
                 break;
 
             default:

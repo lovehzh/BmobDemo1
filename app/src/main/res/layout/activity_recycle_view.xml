@@ -6,54 +6,20 @@
     tools:context="demo.android.hello.com.bmobdemo1.MainActivity"
     android:orientation="vertical"
     >
+    <com.andview.refreshview.XRefreshView
+        android:id="@+id/xrefreshview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff">
 
-    <TextView
-        android:id="@+id/tv_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-         />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_test_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:background="#bbccaa"
+            android:scrollbars="vertical" />
+    </com.andview.refreshview.XRefreshView>
 
-    <Button
-        android:id="@+id/btn_insert_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/insert_user"
-        />
-
-    <Button
-        android:id="@+id/btn_update_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/update_user"
-        />
-
-    <Button
-        android:id="@+id/btn_delete_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/delete_user"
-        />
-
-    <Button
-        android:id="@+id/btn_querry_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/querry_user"
-        />
-
-    <Button
-        android:id="@+id/btn_querry_datas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/querry_users"
-        />
-
-    <Button
-        android:id="@+id/btn_go_list_activity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/go_recycle_view"
-        />
 
 </LinearLayout>
