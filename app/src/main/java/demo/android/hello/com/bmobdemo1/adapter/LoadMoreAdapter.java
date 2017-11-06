@@ -10,8 +10,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
-import java.util.List;
+import java.util.ArrayList;
 
+import demo.android.hello.com.bmobdemo1.Person;
 import demo.android.hello.com.bmobdemo1.R;
 
 /**
@@ -21,7 +22,7 @@ import demo.android.hello.com.bmobdemo1.R;
 
 public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<String> dataList;
+    private ArrayList<Person> dataList;
 
     // 普通布局
     private final int TYPE_ITEM = 1;
@@ -36,7 +37,7 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     // 加载到底
     public final int LOADING_END = 3;
 
-    public LoadMoreAdapter(List<String> dataList) {
+    public LoadMoreAdapter(ArrayList<Person> dataList) {
         this.dataList = dataList;
     }
 
@@ -70,7 +71,9 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof RecyclerViewHolder) {
             RecyclerViewHolder recyclerViewHolder = (RecyclerViewHolder) holder;
-            recyclerViewHolder.tvItem.setText(dataList.get(position));
+
+            Person person = dataList.get(position);
+            recyclerViewHolder.tvItem.setText(person.getName() + "   " + person.getAddress());
 
         } else if (holder instanceof FootViewHolder) {
             FootViewHolder footViewHolder = (FootViewHolder) holder;

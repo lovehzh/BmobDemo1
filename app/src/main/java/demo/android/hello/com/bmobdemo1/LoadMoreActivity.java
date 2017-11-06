@@ -6,12 +6,16 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import demo.android.hello.com.bmobdemo1.adapter.LoadMoreAdapter;
 import demo.android.hello.com.bmobdemo1.listener.EndlessRecyclerOnScrollListener;
 
@@ -24,7 +28,11 @@ public class LoadMoreActivity extends  BaseActivity{
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private LoadMoreAdapter loadMoreAdapter;
-    private List<String> dataList = new ArrayList<>();
+    private ArrayList<Person> dataList = new ArrayList<Person>();
+
+    private static  int pagesize = 15;
+    private int count;
+    private int currentSize;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,18 +64,19 @@ public class LoadMoreActivity extends  BaseActivity{
             public void onRefresh() {
                 //刷新数据
                 dataList.clear();
+                count = 0;
                 getData();
-                loadMoreAdapter.notifyDataSetChanged();
+//                loadMoreAdapter.notifyDataSetChanged();
 
                 //延时1s关闭下拉刷新
-                swipeRefreshLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
-                            swipeRefreshLayout.setRefreshing(false);
-                        }
-                    }
-                }, 1000);
+//                swipeRefreshLayout.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
+//                            swipeRefreshLayout.setRefreshing(false);
+//                        }
+//                    }
+//                }, 1000);
             }
         });
 
@@ -76,34 +85,93 @@ public class LoadMoreActivity extends  BaseActivity{
             @Override
             public void onLoadMore() {
                 loadMoreAdapter.setLoadState(loadMoreAdapter.LOADING);
-
-                if (dataList.size() < 52) {
-                    //模拟取网络数据，延时1s
-                    new Timer().schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    getData();
-                                    loadMoreAdapter.setLoadState(loadMoreAdapter.LOADING_COMPLETE);
-                                }
-                            });
-                        }
-                    }, 1000);
-                }else {
+                if (currentSize <pagesize) {
                     //显示加载到底的提示
                     loadMoreAdapter.setLoadState(loadMoreAdapter.LOADING_END);
+                }else {
+                    loadMoreData();
                 }
             }
         });
     }
 
+
+
     private  void getData() {
-        char letter = 'A';
-        for (int i = 0; i < 26; i++) {
-            dataList.add(String.valueOf(letter));
-            letter++;
-        }
+        BmobQuery<Person> bmobQuery = new BmobQuery<Person>();
+        //注意分页的写法 count * pagesize
+        bmobQuery.setLimit(pagesize).setSkip(count * pagesize).order("-createdAt").findObjects(new FindListener<Person>() {
+            @Override
+            public void done(List<Person> list, BmobException e) {
+                if(e == null) {
+//                    ShowToast("查到" + list.size() + "条数据");
+                    count = ++count;
+                    for (Person person : list) {
+                        Log.i("test", person.getName() + " " + person.getAddress());
+                    }
+                    dataList.addAll(list);
+                    loadMoreAdapter.notifyDataSetChanged();
+
+                    if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
+                            swipeRefreshLayout.setRefreshing(false);
+                    }
+
+                    currentSize = list.size();
+                }else {
+                    ShowToast("出错了" + e.toString());
+                }
+            }
+        });
+    }
+
+    private void loadMoreData() {
+        BmobQuery<Person> bmobQuery = new BmobQuery<Person>();
+        //注意分页的写法 count * pagesize
+        bmobQuery.setLimit(pagesize).setSkip(count * pagesize).order("-createdAt").findObjects(new FindListener<Person>() {
+            @Override
+            public void done(List<Person> list, BmobException e) {
+                if(e == null) {
+//                    ShowToast("查到" + list.size() + "条数据");
+                    count = ++count;
+                    for (Person person : list) {
+                        Log.i("test", person.getName() + " " + person.getAddress());
+                    }
+                    dataList.addAll(list);
+                    loadMoreAdapter.notifyDataSetChanged();
+                    loadMoreAdapter.setLoadState(loadMoreAdapter.LOADING_COMPLETE);
+
+
+                    currentSize = list.size();
+//                    if (list.size() < pagesize) {
+//                        //显示加载到底的提示
+//                        loadMoreAdapter.setLoadState(loadMoreAdapter.LOADING_END);
+//                    }
+                }else {
+                    ShowToast("出错了" + e.toString());
+                }
+            }
+        });
+    }
+
+    /**
+     * 分页查询
+     */
+    private void queryPersons() {
+        BmobQuery<Person> bmobQuery = new BmobQuery<Person>();
+        //注意分页的写法 count * pagesize
+        bmobQuery.setLimit(pagesize).setSkip(count * pagesize).order("-createdAt").findObjects(new FindListener<Person>() {
+            @Override
+            public void done(List<Person> list, BmobException e) {
+                if(e == null) {
+                    ShowToast("查到" + list.size() + "条数据");
+                    count = ++count;
+                    for (Person person : list) {
+                        Log.i("test", person.getName() + " " + person.getAddress());
+                    }
+                }else {
+                    ShowToast("出错了" + e.toString());
+                }
+            }
+        });
     }
 }
