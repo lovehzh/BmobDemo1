@@ -20,7 +20,7 @@ import cn.bmob.v3.listener.UpdateListener;
 public class MainActivity extends BaseActivity implements View.OnClickListener{
     private Button btnInsert, btnUpdate, btnDelete, btnQuerry;
     private Button btnQuerryUsers;
-    private Button btnGoRycycleView;
+    private Button btnGoRycycleView, btnGoRycycleView2;
     private String objectId = "";
 
     private static  int pagesize = 10;
@@ -56,6 +56,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         btnGoRycycleView = (Button)findViewById(R.id.btn_go_list_activity);
         btnGoRycycleView.setOnClickListener(this);
+
+        btnGoRycycleView2 = (Button)findViewById(R.id.btn_load_more);
+        btnGoRycycleView2.setOnClickListener(this);
     }
 
     /**
@@ -160,6 +163,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
+        Intent intent = null;
         switch (view.getId()) {
             case R.id.btn_insert_user:
                 createPerson();
@@ -182,9 +186,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
 
             case  R.id.btn_go_list_activity:
-                Intent intent = new Intent(this, RecycleViewActivity.class);
+                intent = new Intent(this, RecycleViewActivity.class);
                 startActivity(intent);
+                break;
 
+            case R.id.btn_load_more:
+                intent = new Intent(this, LoadMoreActivity.class);
+                startActivity(intent);
                 break;
 
             default:
